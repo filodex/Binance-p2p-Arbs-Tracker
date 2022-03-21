@@ -1,5 +1,11 @@
-Бот раз в 15 минут проверит выгодность обмена Rub на каждую из доступных на Binance p2p криптовалют и в случае наличия выгодного трейда(профит > 0.8% от вложения) сообщит об этом в telegram.
+**Arbs Tracker
+---
+<h3>Introduction</h3>
+This is a simple telegram bot, that Binance p2p exchange for a different arbitrage situations. 
+If there is a good chance to take a profit, bot will notify you in Telegram.
 
-Запуск:
+***Installation
+```
 npm install
 node src/binanceArbs.js
+```
