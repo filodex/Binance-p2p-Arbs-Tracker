@@ -1,0 +1,25 @@
+{
+  "name": "binancep2parbs",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "binanceArbs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/filodex/binanceP2PArbs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/filodex/binanceP2PArbs/issues"
+  },
+  "homepage": "https://github.com/filodex/binanceP2PArbs#readme",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "puppeteer": "^13.1.2",
+    "telegraf": "^4.6.0"
+  }
+}
