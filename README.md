@@ -11,6 +11,9 @@ npm install
 node src/binanceArbs.js
 ```
 
+<h3>Subscribe to sending</h3>
+To subsribe you should send "p2p" message to your bot
+
 <h3>Settings</h3>
 At first, append your bot token to src/token.txt
 
