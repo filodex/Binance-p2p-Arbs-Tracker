@@ -14,6 +14,9 @@ export async function getPricesOfAllTradingPairs() {
         // USD-RUB вернет значение вида 120.45 (Number) //DONE
         let usdRub = await getUsdRub(page)
 
+        //BTC-USD exchange
+        let btcUsd = await getBtcUsd(page)
+
         // USDT-RUB вернет все Тинькоф офферы в виде массива //DONE
         let usdtRubOffers = await getUsdtRubOffers(page)
 
@@ -26,15 +29,13 @@ export async function getPricesOfAllTradingPairs() {
         // Btc-usd Tinkoff
         let btcUsdOffers = await getBtcUsdOffers(page)
 
-        // BTC-USDt exchange
-        //let btcUsdt = await getBtcUsdt(page)
-
         //TO-DO
 
         page.close()
 
         return {
             usdRub: usdRub,
+            btcUsd: btcUsd,
             usdtRubOffers: usdtRubOffers,
             usdtRub_bestOffer: usdtRubOffers[0],
             usdtUsdOffers: usdtUsdOffers,
@@ -52,6 +53,26 @@ export async function getPricesOfAllTradingPairs() {
 }
 
 // Functions
+async function getBtcUsd(page) {
+    page.goto('https://ru.investing.com/crypto/bitcoin/btc-usd')
+
+    let currencySelector =
+        '#__next > div.desktop\\:relative.desktop\\:bg-background-default > div > div > div.grid.gap-4.tablet\\:gap-6.grid-cols-4.tablet\\:grid-cols-8.desktop\\:grid-cols-12.grid-container--fixed-desktop.general-layout_main__3tg3t > main > div > div.instrument-header_instrument-header__1SRl8.mb-5.bg-background-surface.tablet\\:grid.tablet\\:grid-cols-2 > div:nth-child(2) > div.instrument-price_instrument-price__3uw25.flex.items-end.flex-wrap.font-bold > span'
+
+    await page.waitForSelector(currencySelector)
+
+    let btcUsd = await page.evaluate((currencySelector) => {
+        return document.querySelector(currencySelector).innerText
+    }, currencySelector)
+
+    // Преобразуем usdRub из вида 120,4567 в 120.45
+    btcUsd = parseFloat(
+        btcUsd.replaceAll('.', '').replaceAll(',', '.')
+    ).toFixed(2)
+
+    return parseFloat(btcUsd)
+}
+
 async function getBtcUsdOffers(page) {
     page.goto('https://p2p.binance.com/en/trade/Tinkoff/BTC?fiat=USD')
     let offersBlockSelector =

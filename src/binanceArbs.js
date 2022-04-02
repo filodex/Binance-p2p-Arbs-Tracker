@@ -44,10 +44,21 @@ function checkConditions(profits) {
 }
 
 function addDefaultCureenciesText(msg) {
-    console.log(pricesOfAllTradingPairs)
     msg =
         msg +
-        `\nUsd/Rub: ${pricesOfAllTradingPairs.usdRub}\nUsdt/Usd p2p: ${pricesOfAllTradingPairs.usdtUsd_bestOffer.price}\nUsdt/Rub p2p:${pricesOfAllTradingPairs.usdtRub_bestOffer.price}\nBtc/Rub: ${pricesOfAllTradingPairs.btcRub_bestOffer.price}\nBtc/Usd: ${pricesOfAllTradingPairs.btcUsd_bestOffer.price}\n`
+        `\nUsd/Rub: ${pricesOfAllTradingPairs.usdRub}
+        Btc/Usd: ${pricesOfAllTradingPairs.btcUsd}
+        Usdt/Usd p2p: ${pricesOfAllTradingPairs.usdtUsd_bestOffer.price}
+        Usdt/Rub p2p:${pricesOfAllTradingPairs.usdtRub_bestOffer.price}
+        Btc/Rub p2p: ${pricesOfAllTradingPairs.btcRub_bestOffer.price}
+        Btc/Usd p2p: ${pricesOfAllTradingPairs.btcUsd_bestOffer.price}
+        \nUsdt p2p дороже рынка на ${(
+            pricesOfAllTradingPairs.usdtRub_bestOffer.price /
+            pricesOfAllTradingPairs.usdRub
+        ).toFixed(2)} (потеряю)
+        А p2p наценка на Usd равна ${
+            pricesOfAllTradingPairs.usdtUsd_bestOffer.price
+        } (получу)`
     return msg
 }
 
@@ -58,7 +69,7 @@ async function main() {
     console.log('pricesIfSllTrading Pairs', pricesOfAllTradingPairs)
 
     // Рассичтываем возможные трейды
-    let tradesProfit = getTradesProfit(pricesOfAllTradingPairs)
+    let tradesProfit = calcTradesProfit(pricesOfAllTradingPairs)
     console.log('TradesProfit', tradesProfit)
 
     // Проверяем хороший ли профит от сделок
@@ -102,7 +113,7 @@ function createTradesMessage(tradesProfit) {
 }
 
 // Вернет объект с расчетом профитов от сделок
-function getTradesProfit(prices) {
+function calcTradesProfit(prices) {
     const startValue = 10000
 
     // RUB > USDT > USD > RUB
@@ -113,20 +124,12 @@ function getTradesProfit(prices) {
             prices.usdRub
     )
 
-    let rub_usdt
-
     // USD > USDT > RUB > USD
     let usd_usdt_rub_usd = calcProfit(
         startValue,
         ((startValue / prices.usdtUsd_bestOffer.price) *
             prices.usdtRub_bestOffer.price) /
             prices.usdRub
-    )
-
-    let usdt_usd_rub_usdt = calcProfit(
-        startValue,
-        (startValue * prices.usdtUsd_bestOffer.price * prices.usdRub) /
-            prices.usdtRub_bestOffer.price
     )
 
     let usdt_rub_usd_usdt = calcProfit(
@@ -136,10 +139,21 @@ function getTradesProfit(prices) {
             prices.usdtUsd_bestOffer.price
     )
 
+    // RUB > BTC > USD > RUB
+    let rub_btc_usd_rub = calcProfit(
+        startValue,
+        (startValue / pricesOfAllTradingPairs.btcRub_bestOffer.price) *
+            pricesOfAllTradingPairs.btcUsd_bestOffer.price *
+            pricesOfAllTradingPairs.usdRub
+    )
+
+    // RUB > BTC > USDT > USD > RUB
+
     return {
         rub_usdt_usd_rub: rub_usdt_usd_rub,
         usd_usdt_rub_usd: usd_usdt_rub_usd,
         usdt_rub_usd_usdt: usdt_rub_usd_usdt,
+        rub_btc_usd_rub: rub_btc_usd_rub,
     }
 }
 
