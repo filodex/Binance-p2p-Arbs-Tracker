@@ -148,12 +148,20 @@ function calcTradesProfit(prices) {
     )
 
     // RUB > BTC > USDT > USD > RUB
+    let rub_btc_usdt_usd_rub = calcProfit(
+        startValue,
+        (startValue / pricesOfAllTradingPairs.btcRub_bestOffer.price) *
+            pricesOfAllTradingPairs.btcUsd *
+            pricesOfAllTradingPairs.usdtUsd_bestOffer.price *
+            pricesOfAllTradingPairs.usdRub
+    )
 
     return {
         rub_usdt_usd_rub: rub_usdt_usd_rub,
         usd_usdt_rub_usd: usd_usdt_rub_usd,
         usdt_rub_usd_usdt: usdt_rub_usd_usdt,
         rub_btc_usd_rub: rub_btc_usd_rub,
+        rub_btc_usdt_usd_rub: rub_btc_usdt_usd_rub,
     }
 }
 

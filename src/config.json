@@ -1,1 +1,1 @@
-{ "check_period": 1800, "expectedProfit": 3 }
+{ "check_period": 1800, "expectedProfit": 3, "headless": true }

@@ -1,6 +1,9 @@
 import puppeteer from 'puppeteer'
+import { readFileSync } from 'fs'
 
-const browser = await puppeteer.launch({ headless: false })
+let config = JSON.parse(readFileSync('./src/config.json'))
+
+const browser = await puppeteer.launch({ headless: config.headless })
 console.log('Browser launched')
 
 // Максимально быстро получить все торгуемые пары
@@ -84,8 +87,7 @@ async function getBtcUsdOffers(page) {
 
     // Ждем, когда загрузится блок офферов
     await page.waitForSelector(offersBlockSelector)
-
-    await page.waitFor(2000)
+    await page.waitForSelector(offersBlockSelector)
 
     // Создаем массив с офферами
     let btcUsdOffers = await page.evaluate(getOffers_evaluate)
@@ -104,8 +106,7 @@ async function getBtcRubOffers(page) {
 
     // Ждем, когда загрузится блок офферов
     await page.waitForSelector(offersBlockSelector)
-
-    await page.waitFor(2000)
+    await page.waitForSelector(offersBlockSelector)
 
     // Создаем массив с офферами
     let usdtRubOffers = await page.evaluate(getOffers_evaluate)
@@ -164,8 +165,7 @@ async function getUsdtRubOffers(page) {
 
     // Ждем, когда загрузится блок офферов
     await page.waitForSelector(offersBlockSelector)
-
-    await page.waitFor(2000)
+    await page.waitForSelector(offersBlockSelector)
 
     // Создаем массив с офферами
     let usdtRubOffers = await page.evaluate(getOffers_evaluate)
