@@ -65,7 +65,9 @@ async function getBtcUsd(page) {
     await page.waitForSelector(currencySelector)
 
     let btcUsd = await page.evaluate((currencySelector) => {
-        return document.querySelector(currencySelector).innerText
+        try {
+            return document.querySelector(currencySelector).innerText
+        } catch (error) {}
     }, currencySelector)
 
     // Преобразуем usdRub из вида 120,4567 в 120.45
@@ -123,7 +125,9 @@ async function getUsdRub(page) {
     await page.waitForSelector(currencySelector)
 
     let usdRub = await page.evaluate((currencySelector) => {
-        return document.querySelector(currencySelector).innerText
+        try {
+            return document.querySelector(currencySelector).innerText
+        } catch (error) {}
     }, currencySelector)
 
     // Преобразуем usdRub из вида 120,4567 в 120.45
@@ -175,26 +179,28 @@ async function getUsdtRubOffers(page) {
 
 // Функция запускается в pupppeteer браузере, в консоли и может быть передана в evaluate
 function getOffers_evaluate() {
-    // Получаем массив 10 офферов
-    let offers_arr = document.querySelectorAll('.css-1q1sp11')
+    try {
+        // Получаем массив 10 офферов
+        let offers_arr = document.querySelectorAll('.css-1q1sp11')
 
-    // Перебираем каждый оффер и создаем объект оффера
-    let offers = []
-    for (const iter of offers_arr) {
-        // объект с именем ценой и доступным кол-вом
-        let offer = {}
+        // Перебираем каждый оффер и создаем объект оффера
+        let offers = []
+        for (const iter of offers_arr) {
+            // объект с именем ценой и доступным кол-вом
+            let offer = {}
 
-        let offerText = iter.innerText // 'D\nDaniilMalandii\n78 ордеров\n97.50% выполнено\n119.69\nRUB\nДоступно\n631.08 USDT\nЛимит\n₽\n1,000.00\n-\n₽\n75,535.03\nКупить USDT'
-        offerText = offerText.split('\n') // Массив из ['D', 'DaniilMalandii', '78 ордеров'...]
+            let offerText = iter.innerText // 'D\nDaniilMalandii\n78 ордеров\n97.50% выполнено\n119.69\nRUB\nДоступно\n631.08 USDT\nЛимит\n₽\n1,000.00\n-\n₽\n75,535.03\nКупить USDT'
+            offerText = offerText.split('\n') // Массив из ['D', 'DaniilMalandii', '78 ордеров'...]
 
-        offer.name = offerText[1] // 'DaniilMalandii'
-        offer.price = parseFloat(offerText[4].replaceAll(',', '')) // Аккуратно, могут быть запятые в больших числах
-        offer.availibleAmount = parseFloat(offerText[7].replaceAll(',', ''))
+            offer.name = offerText[1] // 'DaniilMalandii'
+            offer.price = parseFloat(offerText[4].replaceAll(',', '')) // Аккуратно, могут быть запятые в больших числах
+            offer.availibleAmount = parseFloat(offerText[7].replaceAll(',', ''))
 
-        offers.push(offer)
-    }
+            offers.push(offer)
+        }
 
-    return offers
+        return offers
+    } catch (error) {}
 }
 
 // WRONG SELECTOR
@@ -207,16 +213,22 @@ async function clickTinkoff(page) {
     await page.waitForSelector(offersBlockSelector) // Нужно ждать, т.к. ломается страница и не загружает офферы
     await page.waitForSelector(tinkoffSelector)
     await page.evaluate(() => {
-        document.querySelector('#Tinkoff').click()
+        try {
+            document.querySelector('#Tinkoff').click()
+        } catch (error) {}
     })
 }
 
 async function clickShowMerchants(page) {
     await page.evaluate(() => {
-        document
-            .querySelector(
-                '#__APP > div.layout__Container-sc-1v4mjny-0.hFTMle.scroll-container > main > div.css-r4oxcz > div > div.css-n901vs > div.css-1gil9zk > label'
-            )
-            .click()
+        try {
+            document
+                .querySelector(
+                    '#__APP > div.layout__Container-sc-1v4mjny-0.hFTMle.scroll-container > main > div.css-1qaka1k > div > div.css-1pguc4d > div.css-1gil9zk > label'
+                )
+                .click()
+        } catch (error) {
+            console.log(error)
+        }
     })
 }
