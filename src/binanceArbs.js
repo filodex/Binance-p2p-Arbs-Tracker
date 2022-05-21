@@ -47,16 +47,16 @@ function addDefaultCureenciesText(msg) {
     msg =
         msg +
         `\nUsd/Rub: ${pricesOfAllTradingPairs.usdRub}
-        Btc/Usd: ${pricesOfAllTradingPairs.btcUsd}
-        Usdt/Usd p2p: ${pricesOfAllTradingPairs.usdtUsd_bestOffer.price}
-        Usdt/Rub p2p:${pricesOfAllTradingPairs.usdtRub_bestOffer.price}
-        Btc/Rub p2p: ${pricesOfAllTradingPairs.btcRub_bestOffer.price}
-        Btc/Usd p2p: ${pricesOfAllTradingPairs.btcUsd_bestOffer.price}
+Btc/Usd: ${pricesOfAllTradingPairs.btcUsd}
+Usdt/Usd p2p: ${pricesOfAllTradingPairs.usdtUsd_bestOffer.price}
+Usdt/Rub p2p:${pricesOfAllTradingPairs.usdtRub_bestOffer.price}
+Btc/Rub p2p: ${pricesOfAllTradingPairs.btcRub_bestOffer.price}
+Btc/Usd p2p: ${pricesOfAllTradingPairs.btcUsd_bestOffer.price}
         \nUsdt p2p дороже рынка на ${(
             pricesOfAllTradingPairs.usdtRub_bestOffer.price /
             pricesOfAllTradingPairs.usdRub
         ).toFixed(2)} (потеряю)
-        А p2p наценка на Usd равна ${
+А p2p наценка на Usd равна ${
             pricesOfAllTradingPairs.usdtUsd_bestOffer.price
         } (получу)`
     return msg
