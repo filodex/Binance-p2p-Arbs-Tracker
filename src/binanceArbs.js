@@ -66,7 +66,7 @@ async function main() {
     // Получаем объект с офферами
     console.log('Loading prices of all trading pairs')
     pricesOfAllTradingPairs = await puppeteer.getPricesOfAllTradingPairs()
-    console.log('pricesIfSllTrading Pairs', pricesOfAllTradingPairs)
+    //console.log('pricesIfSllTrading Pairs', pricesOfAllTradingPairs)
 
     // Рассичтываем возможные трейды
     let tradesProfit = calcTradesProfit(pricesOfAllTradingPairs)
@@ -115,6 +115,10 @@ function createTradesMessage(tradesProfit) {
 // Вернет объект с расчетом профитов от сделок
 function calcTradesProfit(prices) {
     const startValue = 10000
+
+    if (!prices.usdtRub_bestOffer.price) {
+        process.exit(0)
+    }
 
     // RUB > USDT > USD > RUB
     let rub_usdt_usd_rub = calcProfit(
