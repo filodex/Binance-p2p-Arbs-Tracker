@@ -52,13 +52,24 @@ Usdt/Usd p2p: ${pricesOfAllTradingPairs.usdtUsd_bestOffer.price}
 Usdt/Rub p2p:${pricesOfAllTradingPairs.usdtRub_bestOffer.price}
 Btc/Rub p2p: ${pricesOfAllTradingPairs.btcRub_bestOffer.price}
 Btc/Usd p2p: ${pricesOfAllTradingPairs.btcUsd_bestOffer.price}
-        \nUsdt p2p дороже рынка на ${(
+        \nUsdtRub p2p дороже рынка на ${(
             pricesOfAllTradingPairs.usdtRub_bestOffer.price /
             pricesOfAllTradingPairs.usdRub
         ).toFixed(2)} (потеряю)
 А p2p наценка на Usd равна ${
             pricesOfAllTradingPairs.usdtUsd_bestOffer.price
-        } (получу)`
+        } (получу)
+UsdtUsd p2p дороже рынка на ${pricesOfAllTradingPairs.usdtUsd_bestOffer.price}
+BtcRub p2p дороже рынка на ${
+            (pricesOfAllTradingPairs.btcRub_bestOffer.price /
+                pricesOfAllTradingPairs.btcUsd) *
+            pricesOfAllTradingPairs.usdRub
+        }
+BtcUsd p2p дороже рынка на ${
+            pricesOfAllTradingPairs.btcUsd_bestOffer.price /
+            pricesOfAllTradingPairs.btcUsd
+        }`
+
     return msg
 }
 
@@ -158,6 +169,14 @@ function calcTradesProfit(prices) {
             pricesOfAllTradingPairs.btcUsd *
             pricesOfAllTradingPairs.usdtUsd_bestOffer.price *
             pricesOfAllTradingPairs.usdRub
+    )
+
+    // RUB > BTC > USDT > RUB
+    let rub_btc_usdt_rub = calcProfit(
+        startValue,
+        (startValue / pricesOfAllTradingPairs.btcRub_bestOffer.price) *
+            pricesOfAllTradingPairs.btcUsd *
+            pricesOfAllTradingPairs.usdtRub_bestOffer.price
     )
 
     return {
