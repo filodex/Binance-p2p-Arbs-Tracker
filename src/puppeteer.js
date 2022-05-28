@@ -166,7 +166,14 @@ async function getUsdtRubOffers(page) {
             'https://p2p.binance.com/en/trade/Tinkoff/USDT?fiat=RUB'
         )
     } catch (error) {
-        process.exit(1)
+        if (errCount > 2) {
+            process.exit(1)
+        }
+        console.log('page.goto in getUsdtRubOffers doesnt work')
+
+        errCount++
+
+        getUsdtRubOffers(page)
     }
 
     let tinkoffSelector = '#Tinkoff'

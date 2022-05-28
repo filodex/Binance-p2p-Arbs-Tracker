@@ -133,6 +133,7 @@ function calcTradesProfit(prices) {
     const startValue = 10000
 
     if (!prices.usdtRub_bestOffer.price) {
+        console.log('usdtRub best Offer is undefined(((')
         process.exit(0)
     }
 
