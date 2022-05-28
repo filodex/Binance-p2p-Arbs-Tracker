@@ -55,20 +55,16 @@ Btc/Usd p2p: ${pricesOfAllTradingPairs.btcUsd_bestOffer.price}
         \nUsdtRub p2p дороже рынка на ${(
             pricesOfAllTradingPairs.usdtRub_bestOffer.price /
             pricesOfAllTradingPairs.usdRub
-        ).toFixed(2)} (потеряю)
-А p2p наценка на Usd равна ${
-            pricesOfAllTradingPairs.usdtUsd_bestOffer.price
-        } (получу)
+        ).toFixed(2)}
 UsdtUsd p2p дороже рынка на ${pricesOfAllTradingPairs.usdtUsd_bestOffer.price}
-BtcRub p2p дороже рынка на ${
-            (pricesOfAllTradingPairs.btcRub_bestOffer.price /
-                pricesOfAllTradingPairs.btcUsd) *
-            pricesOfAllTradingPairs.usdRub
-        }
-BtcUsd p2p дороже рынка на ${
+BtcRub p2p дороже рынка на ${(
+            pricesOfAllTradingPairs.btcRub_bestOffer.price /
+            (pricesOfAllTradingPairs.btcUsd * pricesOfAllTradingPairs.usdRub)
+        ).toFixed(2)}
+BtcUsd p2p дороже рынка на ${(
             pricesOfAllTradingPairs.btcUsd_bestOffer.price /
             pricesOfAllTradingPairs.btcUsd
-        }`
+        ).toFixed(2)}`
 
     return msg
 }
@@ -97,6 +93,16 @@ async function main() {
 
         sendToSubs(message_toSend)
     }
+
+    //Просто выведем в консоль сообщение для отправки
+    try {
+        let availibleTrades_message = createTradesMessage(tradesProfit)
+
+        // Добавляем к сообщению что угодно
+        let message_toSend = addDefaultCureenciesText(availibleTrades_message)
+
+        console.log('Message to send:', `\n${message_toSend}`)
+    } catch (error) {}
 
     //
 
@@ -185,6 +191,7 @@ function calcTradesProfit(prices) {
         usdt_rub_usd_usdt: usdt_rub_usd_usdt,
         rub_btc_usd_rub: rub_btc_usd_rub,
         rub_btc_usdt_usd_rub: rub_btc_usdt_usd_rub,
+        rub_btc_usdt_rub: rub_btc_usdt_rub,
     }
 }
 

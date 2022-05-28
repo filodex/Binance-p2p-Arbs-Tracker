@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer'
 import { readFileSync } from 'fs'
 
 let config = JSON.parse(readFileSync('./src/config.json'))
+global.errCount = 0
 
 const browser = await puppeteer.launch({ headless: config.headless })
 console.log('Browser launched')
@@ -49,7 +50,7 @@ export async function getPricesOfAllTradingPairs() {
             btcUsd_bestOffer: btcUsdOffers[0],
         }
     } catch (error) {
-        console.log(error)
+        console.log('getPricesOfAllTraidingPairs err', error)
     }
 
     // Возвращаем объект с офферами
@@ -168,13 +169,29 @@ async function getUsdtRubOffers(page) {
     //    await clickTinkoff(page)
 
     // Ждем, когда загрузится блок офферов
-    await page.waitForSelector(offersBlockSelector)
-    await page.waitForSelector(offersBlockSelector)
+    try {
+        await page.waitForSelector(offersBlockSelector)
+        await page.waitForSelector(offersBlockSelector)
+    } catch (error) {
+        await page.evaluate(clickReload_evaluate)
+
+        try {
+            await page.waitForSelector(offersBlockSelector)
+        } catch (error) {
+            console.log('reload doesnt work')
+            process.exit(1)
+        }
+    }
 
     // Создаем массив с офферами
     let usdtRubOffers = await page.evaluate(getOffers_evaluate)
 
     return usdtRubOffers
+}
+
+function clickReload_evaluate() {
+    let reloadButton = document.querySelector('#C2CofferList_btn_refresh')
+    reloadButton.click()
 }
 
 // Функция запускается в pupppeteer браузере, в консоли и может быть передана в evaluate
@@ -200,7 +217,19 @@ function getOffers_evaluate() {
         }
 
         return offers
-    } catch (error) {}
+    } catch (error) {
+        if (errCount > 2) {
+            console.log('errCount > 2')
+            process.exit(1)
+        }
+
+        let reloadButton = document.querySelector('#C2CofferList_btn_refresh')
+        reloadButton.click()
+
+        getOffers_evaluate()
+
+        errCount++
+    }
 }
 
 // WRONG SELECTOR
@@ -228,7 +257,7 @@ async function clickShowMerchants(page) {
                 )
                 .click()
         } catch (error) {
-            console.log(error)
+            console.log('clickShowMerchants err', error)
         }
     })
 }
