@@ -1,4 +1,4 @@
-**Arbs Tracker**
+**Tinkoff Binance Arbs Tracker**
 ---
 <h3>Introduction</h3>
 This is a simple telegram bot, that checks Binance p2p exchange for a different arbitrage situations. 
