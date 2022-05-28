@@ -105,8 +105,7 @@ async function main() {
     } catch (error) {}
 
     //
-
-    // Массив с хорошими трейдами отправляем в телегу
+    console.log('main() ended')
 }
 
 // Вернет

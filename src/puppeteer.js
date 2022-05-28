@@ -161,7 +161,14 @@ async function getUsdtUsdOffers(page) {
 
 // Вернет массив объектов офферов с именем ценой и доступным для покупки кол-вом // DONE
 async function getUsdtRubOffers(page) {
-    page.goto('https://p2p.binance.com/en/trade/Tinkoff/USDT?fiat=RUB')
+    try {
+        await page.goto(
+            'https://p2p.binance.com/en/trade/Tinkoff/USDT?fiat=RUB'
+        )
+    } catch (error) {
+        process.exit(1)
+    }
+
     let tinkoffSelector = '#Tinkoff'
     let offersBlockSelector =
         '#__APP > div.layout__Container-sc-1v4mjny-0.hFTMle.scroll-container > main > div.css-186r813 > div > div.css-vurnku'
