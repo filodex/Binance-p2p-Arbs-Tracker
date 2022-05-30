@@ -4,6 +4,7 @@
 
 import * as puppeteer from './puppeteer.js'
 import { readFileSync } from 'fs'
+import chalk from 'chalk'
 import { sendToSubs } from './telegram.js'
 
 // Config init
@@ -20,11 +21,11 @@ let pricesOfAllTradingPairs
 
 // Main  -  тут основная логика бота
 //initial call
-console.log(new Date().toLocaleString())
+console.log(chalk.blue(new Date().toLocaleString()))
 await main()
 
 setInterval(async () => {
-    console.log(getTime(), '\nMain interval started')
+    console.log(chalk.blue(getTime(), '\nMain interval started'))
 
     await main()
 }, conf.check_period)
@@ -132,7 +133,7 @@ function createTradesMessage(tradesProfit) {
 function calcTradesProfit(prices) {
     const startValue = 10000
 
-    if (!prices.usdtRub_bestOffer.price) {
+    if (!prices.usdtRub_bestOffer || !prices.usdtRub_bestOffer.price) {
         console.log('usdtRub best Offer is undefined(((')
         process.exit(0)
     }
