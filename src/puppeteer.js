@@ -185,15 +185,15 @@ async function getUsdtRubOffers(page) {
     // Ждем, когда загрузится блок офферов
     try {
         await page.waitForSelector(offersBlockSelector)
-        await page.waitForSelector(offersBlockSelector)
     } catch (error) {
-        await page.evaluate(clickReload_evaluate)
-
+        await page.goto(
+            'https://p2p.binance.com/en/trade/Tinkoff/USDT?fiat=RUB'
+        )
         try {
             await page.waitForSelector(offersBlockSelector)
         } catch (error) {
             console.log('reload doesnt work')
-            process.exit(1)
+            process.exit(0)
         }
     }
 
