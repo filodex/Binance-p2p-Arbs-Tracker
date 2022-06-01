@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer'
 import { readFileSync } from 'fs'
+import chalk from 'chalk'
 
 let config = JSON.parse(readFileSync('./src/config.json'))
 global.errCount = 0
@@ -176,7 +177,7 @@ async function getUsdtRubOffers(page) {
         if (errCount > 2) {
             process.exit(1)
         }
-        console.log('page.goto in getUsdtRubOffers doesnt work')
+        console.log('page.goto in getUsdtRubOffers doesnt work', error)
 
         errCount++
 
