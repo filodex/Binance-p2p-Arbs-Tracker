@@ -51,6 +51,7 @@ export async function getPricesOfAllTradingPairs() {
         }
     } catch (error) {
         console.log('getPricesOfAllTraidingPairs err', error)
+        process.exit(0)
     }
 
     // Возвращаем объект с офферами
