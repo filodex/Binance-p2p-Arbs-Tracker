@@ -50,8 +50,14 @@ export async function getPricesOfAllTradingPairs() {
             btcUsd_bestOffer: btcUsdOffers[0],
         }
     } catch (error) {
+        if (errCount > 5) {
+            process.exit(0)
+        }
+
+        errCount++
+        console.log(chalk.red('err count', errCount))
         console.log('getPricesOfAllTraidingPairs err', error)
-        process.exit(0)
+        getPricesOfAllTraidingPairs()
     }
 
     // Возвращаем объект с офферами
