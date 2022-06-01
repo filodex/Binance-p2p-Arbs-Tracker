@@ -7,6 +7,11 @@ import { readFileSync } from 'fs'
 import chalk from 'chalk'
 import { sendToSubs } from './telegram.js'
 
+process.on('uncaughtException', (err, origin) => {
+    console.log(err, origin)
+    process.exit(0)
+})
+
 // Config init
 global.conf = JSON.parse(readFileSync('./src/config.json'))
 
