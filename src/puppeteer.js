@@ -35,6 +35,7 @@ export async function getPricesOfAllTradingPairs() {
         let btcUsdOffers = await getBtcUsdOffers(page)
 
         //TO-DO
+        console.log('All should be collected now')
 
         page.close()
 
@@ -52,6 +53,7 @@ export async function getPricesOfAllTradingPairs() {
         }
     } catch (error) {
         if (errCount > 5) {
+            console.log('err in getPricesOfAllTraidingPairs', error)
             process.exit(0)
         }
 
