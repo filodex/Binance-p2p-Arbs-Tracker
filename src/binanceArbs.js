@@ -135,6 +135,7 @@ function calcTradesProfit(prices) {
 
     if (!prices.usdtRub_bestOffer || !prices.usdtRub_bestOffer.price) {
         console.log('usdtRub best Offer is undefined(((')
+        console.log(prices)
         process.exit(0)
     }
 

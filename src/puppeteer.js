@@ -184,22 +184,26 @@ async function getUsdtRubOffers(page) {
     //    await clickTinkoff(page)
 
     // Ждем, когда загрузится блок офферов
-    try {
-        await page.waitForSelector(offersBlockSelector)
-    } catch (error) {
-        await page.goto(
-            'https://p2p.binance.com/en/trade/Tinkoff/USDT?fiat=RUB'
-        )
-        try {
-            await page.waitForSelector(offersBlockSelector)
-        } catch (error) {
-            console.log('reload doesnt work')
-            process.exit(0)
-        }
-    }
+    await page.waitForSelector(offersBlockSelector)
 
+    // try {
+    //     await page.waitForSelector(offersBlockSelector)
+    // } catch (error) {
+    //     await page.goto(
+    //         'https://p2p.binance.com/en/trade/Tinkoff/USDT?fiat=RUB'
+    //     )
+    //     try {
+    //         await page.waitForSelector(offersBlockSelector)
+    //     } catch (error) {
+    //         console.log('reload doesnt work')
+    //         process.exit(0)
+    //     }
+    // }
+
+    console.log('делается 1')
     // Создаем массив с офферами
     let usdtRubOffers = await page.evaluate(getOffers_evaluate)
+    console.log('delaetsa 2', usdtRubOffers)
 
     return usdtRubOffers
 }
