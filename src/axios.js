@@ -2,31 +2,26 @@ import axios from 'axios'
 import chalk from 'chalk'
 
 setTimeout(() => {}, 300000)
+
 const url = 'https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search'
 
-let res = await axios
-    .post(url, {
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            'User-Agent':
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.72 Safari/537.36',
-            Connection: 'keep-alive',
-        },
-        body: JSON.stringify({
-            page: 1,
-            rows: 10,
-            payTypes: ['Tinkoff'],
-            countries: [],
-            publisherType: null,
-            fiat: 'RUB',
-            tradeType: 'BUY',
-            asset: 'USDT',
-            merchantCheck: false,
-        }),
-    })
-    .catch(async (err) => {
-        console.log(Object.keys(err))
-    })
+const rawData_text =
+    '{"page":1,"rows":10,"payTypes":["Tinkoff"],"countries":[],"publisherType":null,"asset":"USDT","fiat":"RUB","tradeType":"BUY"}'
+const rawData_object = {
+    page: 1,
+    rows: 10,
+    payTypes: ['Tinkoff'],
+    countries: [],
+    publisherType: null,
+    asset: 'USDT',
+    fiat: 'RUB',
+    tradeType: 'BUY',
+}
+const rawData_stringified = JSON.stringify(rawData_object)
 
-console.log(chalk.bgRed(res))
+async function sendRequest() {
+    let response = await axios.post(url, rawData_object) // --РАБОТАЕТ--
+}
+
+let response = await sendRequest()
+console.log(response.data)
