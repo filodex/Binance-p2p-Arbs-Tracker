@@ -1,3 +1,4 @@
+Its totally broken, don't use it
 **Tinkoff Binance Arbs Tracker**
 ---
 <h3>Introduction</h3>
